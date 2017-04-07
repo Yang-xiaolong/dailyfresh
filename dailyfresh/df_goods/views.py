@@ -1,6 +1,9 @@
 # coding=utf-8
 from models import *
 from django.shortcuts import render
+from django.core.paginator import Paginator
+from collections import deque
+from utils import get_cart_goods_count
 
 # Create your views here.
 
@@ -25,7 +28,9 @@ def index(request):
 
     ice_data = GoodsInfo.Goods.filter(g_type__title='速冻食品').order_by('-id')
     ice_click = GoodsInfo.Goods.filter(g_type__title='速冻食品').order_by('-g_click')
+    count = get_cart_goods_count.get_count(request)
     context = {
+        'type': 'index',
         'title': '天天生鲜-首页',
         'type_data1': type_data1,
         'type_data2': type_data2,
@@ -33,6 +38,7 @@ def index(request):
         'type_data4': type_data4,
         'type_data5': type_data5,
         'type_data6': type_data6,
+        'count': count,
         'fruit': {
             'click': fruit_click[0:3],
             'content': fruit_data[0:4]
@@ -62,7 +68,81 @@ def index(request):
 
 
 def goods_list(request):
+    type_data = TypeInfo.Types.all()
+    type_data1, type_data2, type_data3, type_data4, type_data5, type_data6 = type_data
+    g_type = request.GET.get('g_type')
+    p_index = request.GET.get('p_index')
+    sort = request.GET.get('sort')
+    click_data = None
+    if sort == 'default':
+        click_data = GoodsInfo.Goods.filter(g_type__title=g_type).order_by('-id')
+    elif sort == 'price':
+        click_data = GoodsInfo.Goods.filter(g_type__title=g_type).order_by('-g_price')
+    elif sort == 'click':
+        click_data = GoodsInfo.Goods.filter(g_type__title=g_type).order_by('-g_click')
+
+    count = get_cart_goods_count.get_count(request)
+    new_data = GoodsInfo.Goods.filter(g_type__title=g_type).order_by('-id')[0:2]
+    page = Paginator(click_data, 10)
+    p_index = int(p_index)
+    list1 = page.page(p_index)
+    p_list = page.page_range
     context = {
-        'title': '天天生鲜-商品列表'
+        'count': count,
+        'type': 'list',
+        'title': '天天生鲜-商品列表',
+        'g_type': g_type,
+        'new': new_data,
+        'list': list1,
+        'p_list': p_list,
+        'p_index': p_index,
+        'sort': sort,
+        'type_data1': type_data1,
+        'type_data2': type_data2,
+        'type_data3': type_data3,
+        'type_data4': type_data4,
+        'type_data5': type_data5,
+        'type_data6': type_data6
     }
     return render(request, 'df_goods/list.html', context)
+
+
+def goods_detail(request):
+    type_data = TypeInfo.Types.all()
+    type_data1, type_data2, type_data3, type_data4, type_data5, type_data6 = type_data
+    g_type = request.GET.get('g_type')
+    g_id = request.GET.get('g_id')
+    new_data = GoodsInfo.Goods.filter(g_type__title=g_type).order_by('-id')[0:2]
+    detail_data = GoodsInfo.Goods.get(id=g_id)
+    detail_data.g_click += 1
+    detail_data.save()
+    count = get_cart_goods_count.get_count(request)
+    context = {
+        'count': count,
+        'type': 'detail',
+        'title': '天天生鲜-商品详情',
+        'g_type': g_type,
+        'goods_info': detail_data,
+        'new': new_data,
+        'type_data1': type_data1,
+        'type_data2': type_data2,
+        'type_data3': type_data3,
+        'type_data4': type_data4,
+        'type_data5': type_data5,
+        'type_data6': type_data6
+    }
+    response = render(request, 'df_goods/detail.html', context)
+    id_list = request.COOKIES.get('goods_ids', deque([]))
+    str_ = type('str')
+    id_list_type = type(id_list)
+    if id_list_type == str_:
+        id_list = eval(id_list)
+    if g_id in id_list:
+        id_list.remove(g_id)
+    if len(id_list) >= 5:
+        id_list.pop()
+
+    id_list.appendleft(g_id)
+    response.set_cookie('goods_ids', id_list)
+    return response
+

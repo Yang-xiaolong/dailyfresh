@@ -8,7 +8,7 @@ $(function () {
     user_name.blur(function () {
         name = user_name.val();
         console.log(name);
-        $.get('/user_is_exist/?user_name=' + name,function (data) {
+        $.get('/user/user_is_exist/?user_name=' + name,function (data) {
             console.log(data);
             if(data.exist==='1'){
                 span.html('用户名已存在,请重新输入');

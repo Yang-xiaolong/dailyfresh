@@ -21,6 +21,14 @@ html,body{height:100%}
 	display:none;
 }
 
+.logout {
+	color:#666;
+}
+
+.logout:hover {
+	color:#ff8800;
+}
+
 .login_info em{color:#ff8800}
 
 .login_btn a,.user_link a{

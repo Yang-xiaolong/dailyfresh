@@ -15,8 +15,9 @@ $(function () {
             'user_name': oUserName.val(),
             'pwd': oPwd.val(),
             'isRememberUserName':oIsRememberUserName.val()
+            // 'csrfmiddlewaretoken': '{{ csrf_token }}'
         };
-        $.post('/login_handle/', setData, function (data) {
+        $.post('/user/login_handle/', setData, function (data) {
             if(data.login === '0'){
                 oPwd_error.html('密码错误,请重试');
                 oPwd_error.show();
@@ -26,7 +27,7 @@ $(function () {
                 oUser_error.show();
                 oPwd_error.hide();
             }else {
-                location.href = "/user_center_info/"
+                location.href = data.login
             }
         });
     });

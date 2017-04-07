@@ -1,14 +1,7 @@
-{%extends 'base.html' %}
-{%block content%}
-<div class="main_con clearfix">
-		<div class="left_menu_con clearfix">
-			<h3>用户中心</h3>
-			<ul>
-				<li><a href="/user_center_info/">· 个人信息</a></li>
-				<li><a href="/user_center_order/">· 全部订单</a></li>
-				<li><a href="/user_center_site/" class="active">· 收货地址</a></li>
-			</ul>
-		</div>
+{%extends 'df_user/base_user.html' %}
+
+{%block child_content%}
+
 		<div class="right_content clearfix">
 				<h3 class="common_title2">全部订单</h3>
 				<ul class="order_list_th w978 clearfix">
@@ -81,4 +74,4 @@
 				</div>
 		</div>
 	</div>
-{%endblock content%}
+{%endblock child_content%}

@@ -1,5 +1,5 @@
-{%extends 'base_goods.html' %}
-{%block script%}
+{%extends 'df_goods/base_goods.html' %}
+{%block child_script%}
 <script type="text/javascript" src="/static/js/slideshow.js"></script>
 	<script type="text/javascript">
 		BCSlideshow('focuspic');
@@ -17,32 +17,11 @@
 			window.location.href = 'list.html';
 		}
 	</script>
-{%endblock script%}
+{%endblock child_script%}
 
-{%block content%}
+{%block child_content%}
 
-	<div class="navbar_con">
-		<div class="navbar">
-			<h1 class="fl">全部商品分类</h1>
-			<ul class="navlist fl">
-				<li><a href="">首页</a></li>
-				<li class="interval">|</li>
-				<li><a href="">手机生鲜</a></li>
-				<li class="interval">|</li>
-				<li><a href="">抽奖</a></li>
-			</ul>
-		</div>
-	</div>
 
-	<div class="center_con clearfix">
-		<ul class="subnav fl">
-			<li><a href="#model01" class="fruit">{{type_data1.title}}</a></li>
-			<li><a href="#model02" class="seafood">{{type_data2.title}}</a></li>
-			<li><a href="#model03" class="meet">{{type_data3.title}}</a></li>
-			<li><a href="#model04" class="egg">{{type_data4.title}}</a></li>
-			<li><a href="#model05" class="vegetables">{{type_data5.title}}</a></li>
-			<li><a href="#model06" class="ice">{{type_data6.title}}</a></li>
-		</ul>
 		<div class="slide fl">
 			<ul class="slide_pics">
 				<li><img src="/static/images/slide.jpg" alt="幻灯片"></li>
@@ -66,10 +45,10 @@
 			<div class="subtitle fl">
 				<span>|</span>
                 {%for item in fruit.click%}
-				<a href="#">{{item.g_title|slice:'10'}}...</a>
+				<a href="/detail/?g_type=新鲜水果&g_id={{item.id}}">{{item.g_title|slice:'10'}}...</a>
                 {%endfor%}
 			</div>
-			<a href="/df_goods/list/" class="goods_more fr" id="fruit_more">查看更多 ></a>
+			<a href="/list/?g_type=新鲜水果&p_index=1&sort=default" class="goods_more fr" id="fruit_more">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -77,8 +56,8 @@
 			<ul class="goods_list fl">
                 {%for item in fruit.content%}
                 <li>
-					<h4><a href="#">{{item.g_title}}</a></h4>
-					<a href="#"><img src="/static/{{item.g_pic}}"></a>
+					<h4><a href="/detail/?g_type=新鲜水果&g_id={{item.id}}">{{item.g_title}}</a></h4>
+					<a href="/detail/?g_type=新鲜水果&g_id={{item.id}}""><img src="/static/{{item.g_pic}}"></a>
 					<div class="prize">¥ {{item.g_price}}</div>
 				</li>
                 {%endfor%}
@@ -92,10 +71,10 @@
 			<div class="subtitle fl">
 				<span>|</span>
                 {%for item in seafood.click%}
-				    <a href="#">{{item.g_title|slice:'10'}}...</a>
+				    <a href="/detail/?g_type=海鲜水产&g_id={{item.id}}">{{item.g_title|slice:'10'}}...</a>
                 {%endfor%}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list/?g_type=海鲜水产&p_index=1&sort=default" class="goods_more fr">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -103,8 +82,8 @@
 			<ul class="goods_list fl">
 				{%for item in seafood.content%}
                 <li>
-					<h4><a href="#">{{item.g_title}}</a></h4>
-					<a href="#"><img src="/static/{{item.g_pic}}"></a>
+					<h4><a href="/detail/?g_type=海鲜水产&g_id={{item.id}}">{{item.g_title}}</a></h4>
+					<a href="/detail/?g_type=海鲜水产&g_id={{item.id}}"><img src="/static/{{item.g_pic}}"></a>
 					<div class="prize">¥ {{item.g_price}}</div>
 				</li>
                 {%endfor%}
@@ -118,10 +97,10 @@
 			<div class="subtitle fl">
 				<span>|</span>
 				{%for item in meat.click%}
-				    <a href="#">{{item.g_title|slice:'10'}}...</a>
+				    <a href="/detail/?g_type=猪牛羊肉&g_id={{item.id}}">{{item.g_title|slice:'10'}}...</a>
                 {%endfor%}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list/?g_type=猪牛羊肉&p_index=1&sort=default" class="goods_more fr">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -129,8 +108,8 @@
 			<ul class="goods_list fl">
                 {%for item in meat.content%}
 				<li>
-					<h4><a href="#">{{item.g_title}}</a></h4>
-					<a href="#"><img src="/static/{{item.g_pic}}"></a>
+					<h4><a href="/detail/?g_type=猪牛羊肉&g_id={{item.id}}">{{item.g_title}}</a></h4>
+					<a href="/detail/?g_type=猪牛羊肉&g_id={{item.id}}"><img src="/static/{{item.g_pic}}"></a>
 					<div class="prize">¥ {{item.g_price}}</div>
 				</li>
                 {%endfor%}
@@ -144,10 +123,10 @@
 			<div class="subtitle fl">
 				<span>|</span>
 				{%for item in egg.click%}
-				    <a href="#">{{item.g_title|slice:'10'}}...</a>
+				    <a href="/detail/?g_type=禽类蛋品&g_id={{item.id}}">{{item.g_title|slice:'10'}}...</a>
                 {%endfor%}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list/?g_type=禽类蛋品&p_index=1&sort=default" class="goods_more fr">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -155,8 +134,8 @@
 			<ul class="goods_list fl">
 				{%for item in egg.content%}
 				<li>
-					<h4><a href="#">{{item.g_title}}</a></h4>
-					<a href="#"><img src="/static/{{item.g_pic}}"></a>
+					<h4><a href="/detail/?g_type=禽类蛋品&g_id={{item.id}}">{{item.g_title}}</a></h4>
+					<a href="/detail/?g_type=禽类蛋品&g_id={{item.id}}"><img src="/static/{{item.g_pic}}"></a>
 					<div class="prize">¥ {{item.g_price}}</div>
 				</li>
                 {%endfor%}
@@ -170,10 +149,10 @@
 			<div class="subtitle fl">
 				<span>|</span>
 				{%for item in vegetables.click%}
-				    <a href="#">{{item.g_title|slice:'10'}}...</a>
+				    <a href="/detail/?g_type=新鲜蔬菜&g_id={{item.id}}">{{item.g_title|slice:'10'}}...</a>
                 {%endfor%}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list/?g_type=猪牛羊肉&p_index=1&sort=default" class="goods_more fr">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -181,8 +160,8 @@
 			<ul class="goods_list fl">
 				{%for item in vegetables.content%}
 				<li>
-					<h4><a href="#">{{item.g_title}}</a></h4>
-					<a href="#"><img src="/static/{{item.g_pic}}"></a>
+					<h4><a href="/detail/?g_type=新鲜蔬菜&g_id={{item.id}}">{{item.g_title}}</a></h4>
+					<a href="/detail/?g_type=新鲜蔬菜&g_id={{item.id}}"><img src="/static/{{item.g_pic}}"></a>
 					<div class="prize">¥ {{item.g_price}}</div>
 				</li>
                 {%endfor%}
@@ -196,10 +175,10 @@
 			<div class="subtitle fl">
 				<span>|</span>
 				{%for item in ice.click%}
-				    <a href="#">{{item.g_title|slice:'10'}}...</a>
+				    <a href="/detail/?g_type=速冻食品&g_id={{item.id}}">{{item.g_title|slice:'10'}}...</a>
                 {%endfor%}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list/?g_type=速冻食品&p_index=1&sort=default" class="goods_more fr">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -207,8 +186,8 @@
 			<ul class="goods_list fl">
 				{%for item in ice.content%}
 				<li>
-					<h4><a href="#">{{item.g_title}}</a></h4>
-					<a href="#"><img src="/static/{{item.g_pic}}"></a>
+					<h4><a href="/detail/?g_type=速冻食品&g_id={{item.id}}">{{item.g_title}}</a></h4>
+					<a href="/detail/?g_type=速冻食品&g_id={{item.id}}"><img src="/static/{{item.g_pic}}"></a>
 					<div class="prize">¥ {{item.g_price}}</div>
 				</li>
                 {%endfor%}
@@ -216,5 +195,5 @@
 		</div>
 	</div>
 
-	{%endblock content%}
+	{%endblock child_content%}
 
