@@ -59,6 +59,7 @@ $(function () {
             $('#check_all').prop('checked',true);
         }
     });
+    
     function subtotal() {
         var counts , subtotals;
         counts = 0;

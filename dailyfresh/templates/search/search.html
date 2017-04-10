@@ -1,0 +1,52 @@
+{%extends 'df_goods/base_goods.html' %} {%load filters%}
+
+{%block child_content%}
+<div class="navbar_con">
+		<div class="navbar clearfix">
+			<div class="subnav_con fl">
+				<h1>全部商品分类</h1>
+				<span></span>
+				<ul class="subnav">
+					<li><a href="/list/?g_type=新鲜水果&p_index=1&sort=default" class="fruit">新鲜水果</a></li>
+					<li><a href="/list/?g_type=海鲜水产&p_index=1&sort=default" class="seafood">海鲜水产</a></li>
+					<li><a href="/list/?g_type=猪牛羊肉&p_index=1&sort=default" class="meet">猪牛羊肉</a></li>
+					<li><a href="/list/?g_type=禽类蛋品&p_index=1&sort=default"class="egg">禽类蛋品</a></li>
+					<li><a href="/list/?g_type=新鲜蔬菜&p_index=1&sort=default" class="vegetables">新鲜蔬菜</a></li>
+					<li><a href="/list/?g_type=速冻食品&p_index=1&sort=default" class="ice">速冻食品</a></li>
+				</ul>
+			</div>
+			<ul class="navlist fl">
+				<li><a href="">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+
+			<ul class="goods_type_list clearfix" style="margin-left: 550px">
+               		{%for item in page%}
+				<li>
+					<a href="/detail/?g_type={{item.object.g_type.title}}&g_id={{item.object.id}}"><img src="/static/{{item.object.g_pic}}"></a>
+					<h4><a href="/detail/?g_type={{g_type}}&g_id={{item.id}}">{{item.object.g_title}}</a></h4>
+					<div class="operate">
+						<span class="prize">￥{{item.object.g_price}}</span>
+						<span class="unit">{{item.object.g_price}}/{{item.object.g_unit}}</span>
+						<a href="javascript:;" class="add_goods" title="加入购物车" id="{{item.object.id}}"></a>
+					</div>
+				</li>
+                {%endfor%}
+			</ul>
+
+			<div class="pagenation">
+				<a {%if page.number == 1%} href="#" {%elif page.number > 1%} href="/search/?q={{query}}&page={{page.number|minus}} {%endif%}"><上一页</a>
+                {%for item in page.paginator.page_range%}
+                <a href="/search/?q={{query}}&page={{item}}" {%if item == page.number%} class="active" {%endif%}>{{item}}</a>
+                {%endfor%}
+				<a {%if page.number >= page.paginator.page_range|length %} href="#" {%else%} href="/search/?q={{query}}&page={{page.number|add}} {%endif%}">下一页></a>
+
+			</div>
+		</div>
+	</div>
+{%endblock child_content%}

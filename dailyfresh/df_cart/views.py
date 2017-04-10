@@ -28,20 +28,17 @@ def add_goods(request):
     g_count = int(g_count)
     user_id = request.session['user_id']
     is_exist = CartInfo.objects.filter(goods_id=g_id, user_id=user_id)
-    print('goods%s' % is_exist)
     if len(is_exist) > 0:
-        is_exist[0].count += g_count
-        print(is_exist[0].count)
-        is_exist[0].save()
-        print(g_count)
+        cart = is_exist[0]
+        cart.count += g_count
     else:
         cart = CartInfo()
         cart.user_id = user_id
         cart.goods_id = g_id
         cart.count = g_count
-        cart.save()
+    cart.save()
     count = get_cart_goods_count.get_count(request)
-    return JsonResponse({'count': count})
+    return JsonResponse({'count': count, 'cart_id': cart.id})
 
 
 def change(request):

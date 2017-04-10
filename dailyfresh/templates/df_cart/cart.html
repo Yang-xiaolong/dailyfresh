@@ -4,6 +4,7 @@
 <script src="/static/js/cart.js"></script>
 {%endblock script%}
 {%block child_content%}
+<form action="/order/" method="get">
 	<div class="total_count">全部商品<em>{{count}}</em>件</div>
 	<ul class="cart_list_th clearfix">
 		<li class="col01">商品名称</li>
@@ -16,7 +17,7 @@
 
 {%for item in cart_info%}
 	<ul class="cart_list_td clearfix" id="{{item.id}}">
-		<li class="col01"><input id="check" type="checkbox" name="" checked></li>
+		<li class="col01"><input id="check" type="checkbox" name="cart_id" value="{{item.id}}" checked></li>
 		<li class="col02"><img src="/static/{{item.goods.g_pic}}"></li>
 		<li class="col03">{{item.goods.g_title}}<br><em>{{item.goods.g_price}}/{{item.goods.g_unit}}</em></li>
 		<li class="col04">{{item.goods.g_unit}}</li>
@@ -36,7 +37,8 @@
 	<ul class="settlements">
 		<li class="col01"><input id="check_all" type="checkbox" name="" checked=""></li>
 		<li class="col02">全选</li>
-		<li class="col03">合计(不含运费)：<span>¥</span><em>42.60</em><br>共计<b>{{count}}</b>件商品</li>
-		<li class="col04"><a href="place_order.html">去结算</a></li>
+		<li class="col03">合计(不含运费)：<span>¥</span><em>0</em><br>共计<b>{{count}}</b>件商品</li>
+		<li class="col04"><input  type="submit" value="去结算"></li>
 	</ul>
+	</form>
 {%endblock child_content%}

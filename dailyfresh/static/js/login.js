@@ -9,13 +9,18 @@ $(function () {
     oPwd_error = $('.pwd_error');
     oUser_error = $('.user_error');
     oIsRememberUserName = $('#isRememberUserName');
-
+    oIsRememberUserName.click(function () {
+        if(oIsRememberUserName.attr('data-id')==1){
+            oIsRememberUserName.attr('data-id',0)
+        }else {
+            oIsRememberUserName.attr('data-id',1)
+        }
+    });
     $('.input_submit').click(function () {
         setData = {
             'user_name': oUserName.val(),
             'pwd': oPwd.val(),
-            'isRememberUserName':oIsRememberUserName.val()
-            // 'csrfmiddlewaretoken': '{{ csrf_token }}'
+            'isRememberUserName': oIsRememberUserName.attr('data-id')
         };
         $.post('/user/login_handle/', setData, function (data) {
             if(data.login === '0'){

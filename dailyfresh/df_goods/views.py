@@ -73,7 +73,7 @@ def goods_list(request):
     g_type = request.GET.get('g_type')
     p_index = request.GET.get('p_index')
     sort = request.GET.get('sort')
-    click_data = None
+    click_data = '0'
     if sort == 'default':
         click_data = GoodsInfo.Goods.filter(g_type__title=g_type).order_by('-id')
     elif sort == 'price':

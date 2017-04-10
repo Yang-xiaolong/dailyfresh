@@ -26,7 +26,7 @@ $(function () {
         var $total = $('.total'), prices, onePrice;
         onePrice = $('.show_pirze').children('em').text();
         prices = number * parseFloat(onePrice);
-        $total.children('em').text(prices + '元');
+        $total.children('em').text(prices.toFixed(2) + '元');
     }
    numberBox.blur(function () {
         price_change();

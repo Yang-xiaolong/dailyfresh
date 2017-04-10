@@ -1,76 +1,71 @@
 {%extends 'df_user/base_user.html' %}
 
 {%block child_content%}
+<script>
+    $(function () {
+        $('.col04').each(function () {
+            var count,price,subtotal;
+            count = parseInt($(this).prev().text());
+            price = parseFloat($(this).prev().prev().children('em').attr('id'));
+            subtotal = count * price;
+            $(this).text(subtotal.toFixed(2) + '元');
+        });
 
+        $('.oper_btn').each(function () {
+            if($(this).text('未付款')) {
+                var orderId;
+                orderId = $(this).parents('table').prev().children('.col02').attr("data-id");
+                $(this).prop('href',"/order/pay/?order_id=" + orderId);
+            } else {
+                $(this).prop('href',"#");
+            }
+        });
+        $('.stress').each(function () {
+            if($(this).text() === '已支付'){
+                console.log('1');
+                $(this).parents('.order_list_th').next().children('tbody').children('tr').children('#pay').text('已付款').next().children('a').text('追踪物流');
+            }else {
+            }
+        });
+    });
+</script>
 		<div class="right_content clearfix">
 				<h3 class="common_title2">全部订单</h3>
+                {%for item in list1%}
 				<ul class="order_list_th w978 clearfix">
-					<li class="col01">2016-8-21 17:36:24</li>
-					<li class="col02">订单号：56872934</li>
-					<li class="col02 stress">未支付</li>		
+					<li class="col01">{{item.0.order.o_date}}</li>
+					<li class="col02" data-id="{{item.0.order_id}}">订单号：{{item.0.order_id}}</li>
+					<li class="col02 stress">{%if item.0.order.o_is_pay == 0%}未支付{%else%}已支付{%endif%}</li>
 				</ul>
 
 				<table class="order_list_table w980">
 					<tbody>
 						<tr>
 							<td width="55%">
+                                {%for item in item%}
 								<ul class="order_goods_list clearfix">					
-									<li class="col01"><img src="/static/images/goods02.jpg"></li>
-									<li class="col02">嘎啦苹果嘎啦苹果<em>11.80元/500g</em></li>	
-									<li class="col03">1</li>
+									<li class="col01"><img src="/static/{{item.goods.g_pic}}"></li>
+									<li class="col02">{{item.goods.g_title|slice:'10'}}<em id="{{item.goods.g_price}}">{{item.goods.g_price}}元/{{item.goods.g_unit}}</em></li>
+									<li class="col03">{{item.count}}</li>
 									<li class="col04">11.80元</li>	
 								</ul>
-								<ul class="order_goods_list clearfix">					
-									<li class="col01"><img src="/static/images/goods02.jpg"></li>
-									<li class="col02">嘎啦苹果嘎啦苹果<em>11.80元/500g</em></li>	
-									<li class="col03">1</li>
-									<li class="col04">11.80元</li>	
-								</ul>
+                                {%endfor%}
 							</td>
-							<td width="15%">33.60元</td>
-							<td width="15%">待付款</td>
+							<td width="15%">{{item.0.order.o_subtotal}}元</td>
+							<td width="15%" id="pay">待付款</td>
 							<td width="15%"><a href="#" class="oper_btn">去付款</a></td>
 						</tr>
 					</tbody>
 				</table>
-				
-				<ul class="order_list_th w978 clearfix">
-					<li class="col01">2016-8-21 17:36:24</li>
-					<li class="col02">订单号：56872934</li>
-					<li class="col02 stress">已支付</li>			
-				</ul>
-				<table class="order_list_table w980">
-					<tbody>
-						<tr>
-							<td width="55%">
-								<ul class="order_goods_list clearfix">					
-									<li class="col01"><img src="/static/images/goods02.jpg"></li>
-									<li class="col02">嘎啦苹果嘎啦苹果<em>11.80元/500g</em></li>	
-									<li class="col03">1</li>
-									<li class="col04">11.80元</li>	
-								</ul>
-								<ul class="order_goods_list clearfix">					
-									<li class="col01"><img src="/static/images/goods02.jpg"></li>
-									<li class="col02">嘎啦苹果嘎啦苹果<em>11.80元/500g</em></li>	
-									<li class="col03">1</li>
-									<li class="col04">11.80元</li>	
-								</ul>
-							</td>
-							<td width="15%">33.60元</td>
-							<td width="15%">已付款</td>
-							<td width="15%"><a href="#" class="oper_btn">查看物流</a></td>
-						</tr>
-					</tbody>
-				</table>
+				{%endfor%}
+
 
 				<div class="pagenation">
-					<a href="#"><上一页</a>
-					<a href="#" class="active">1</a>
-					<a href="#">2</a>
-					<a href="#">3</a>
-					<a href="#">4</a>
-					<a href="#">5</a>
-					<a href="#">下一页></a>
+					<a {%if p_index == 1%} href="#" {%elif p_index > 1%} href="/user/user_center_order/?p_index={{p_index|add:-1}}" {%endif%}><上一页</a>
+                    {%for item in p_list%}
+					<a href="/user/user_center_order/?p_index={{item}} " {%if item == p_index %} class="active" {%else%} class="" {%endif%}>{{item}}</a>
+                    {%endfor%}
+					<a {%if p_index >= p_list|length %}href="#" {%else%} href="/user/user_center_order/?p_index={{p_index|add:1}}" {%endif%}>下一页></a>
 				</div>
 		</div>
 	</div>
